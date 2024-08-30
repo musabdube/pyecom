@@ -1,0 +1,16 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+<h2>Update Order Status</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="status">Order Status:</label>
+    <select name="status" id="status">
+        <option value="PENDING" {% if order.status == 'PENDING' %}selected{% endif %}>Pending</option>
+        <option value="APPROVED" {% if order.status == 'APPROVED' %}selected{% endif %}>Approved</option>
+        <option value="REJECTED" {% if order.status == 'REJECTED' %}selected{% endif %}>Rejected</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Update Status</button>
+</form>
+<a href="{% url 'admin_order_list' %}">Back to Order List</a>
+{% endblock %}

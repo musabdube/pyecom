@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+
+{% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:100%; height:auto;">
+{% endif %}
+
+<p><strong>Description:</strong> {{ product.description }}</p>
+<p><strong>Price:</strong> ${{ product.price }}</p>
+<p><strong>Stock:</strong> {{ product.stock }} available</p>
+<p><strong>Category:</strong> {{ product.category.name }}</p>
+
+<!-- Add to Cart Form -->
+{% if product.stock > 0 %}
+    <form action="{% url 'add_to_cart' product_id=product.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+    </form>
+{% else %}
+    <p class="text-danger">Out of Stock</p>
+{% endif %}
+
+<a href="{% url 'product_list' %}" class="btn btn-secondary">Back to products</a>
+{% endblock %}

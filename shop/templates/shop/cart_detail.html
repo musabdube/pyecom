@@ -1,0 +1,54 @@
+{% extends "shop/base.html" %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<h2>Your Cart</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart.items.all %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>${{ item.product.price }}</td>
+            <td>
+                <!-- Form to update quantity -->
+                <form action="{% url 'update_cart' item.id %}" method="post" class="form-inline">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control mr-2" style="width: 70px;">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </td>
+            <td>${{ item.get_cost }}</td>
+            <td>
+                <!-- Link to remove item from cart -->
+                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">Total:</td>
+            <td>${{ cart.get_total_cost }}</td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- Order Button -->
+<form action="{% url 'place_order' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Place Order</button>
+</form>
+
+<a href="{% url 'product_list' %}" class="btn btn-primary">Continue Shopping</a>
+{% endblock %}

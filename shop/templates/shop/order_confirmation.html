@@ -1,0 +1,11 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<h2>Thank you for your order!</h2>
+<p>Your order number is <strong>{{ order.id }}</strong>.</p>
+<p>Total Amount: <strong>${{ order.total_price }}</strong></p>
+<p>Your payment is pending. An administrator will review and approve your payment.</p>
+<a href="{% url 'product_list' %}" class="btn btn-primary">Continue Shopping</a>
+{% endblock %}

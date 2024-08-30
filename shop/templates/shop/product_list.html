@@ -1,0 +1,54 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+<h2>Product List</h2>
+
+<!-- Search Form -->
+<form method="GET" action="{% url 'product_list' %}">
+    <input type="text" name="q" placeholder="Search products" value="{{ request.GET.q }}">
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100px; height: auto;">
+                {% else %}
+                <img src="data:image/jpeg;base64,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" alt="No Image" style="width: 100px; height: auto;">
+                {% endif %}
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>${{ product.price }}</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.category.name }}</td>
+            <td>
+                <a href="{% url 'product_detail' product.id %}" class="btn btn-info">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Home - E-commerce Site{% endblock %}
+
+{% block content %}
+<!-- Hero Carousel -->
+<div id="heroCarousel" class="carousel slide mb-5" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for product in featured_products %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <!-- Set a fixed height and use object-fit to maintain aspect ratio -->
+                <img src="{{ product.image.url }}" class="d-block w-100" style="height: 500px; object-fit: cover;" alt="{{ product.name }}">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description|truncatewords:20 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Category Sidebar -->
+        <div class="col-md-3 mb-4">
+            <h3>Categories</h3>
+            <ul class="list-group">
+                {% for category in categories %}
+                    <li class="list-group-item">
+                        <a href="{% url 'product_list_by_category' category.id %}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-md-9">
+            <!-- Featured Products -->
+            <h3 class="mb-4">Featured Products</h3>
+            <div class="row">
+                {% for product in featured_products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <!-- Ensure all images have the same size -->
+                            <img src="{{ product.image.url }}" class="card-img-top img-fluid" style="height: 250px; object-fit: cover;" alt="{{ product.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">${{ product.price }}</p>
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Latest Products -->
+            <h3 class="mb-4">Latest Products</h3>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <!-- Ensure all images have the same size -->
+                            <img src="{{ product.image.url }}" class="card-img-top img-fluid" style="height: 250px; object-fit: cover;" alt="{{ product.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">${{ product.price }}</p>
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

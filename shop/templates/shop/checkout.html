@@ -1,0 +1,13 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h2>Checkout</h2>
+
+<form action="{% url 'checkout' %}" method="POST">
+    {% csrf_token %}
+    <p>Amount to be paid: <strong>${{ cart.get_total_cost }}</strong></p>
+    <button type="submit" class="btn btn-success mt-4">Place Order (Cash Payment)</button>
+</form>
+{% endblock %}
